@@ -43,7 +43,7 @@ const usuariosPut = async(req, res = response) => {
     }
 
     //Actualiza el registro: Lo busca por id y actualiza con los valores de resto
-    const usuario = await Usuario.findOneAndUpdate({ _id: id }, resto);
+    const usuario = await Usuario.findOneAndUpdate({ _id: id }, resto, { new: true });
 
     res.json({
         usuario
@@ -65,19 +65,21 @@ const usuariosPost = async(req, res = response) => {
 }
 const usuariosDelete = async(req, res = response) => {
     const {id} = req.params;
+    //const uid = req.uid;
 
     //Borrado fisico
     //const usuario = await Usuario.findByIdAndDelete(id)
+    
     //Borrado logico
-    const usuario = await Usuario.findByIdAndUpdate(id, {estado:false});
+    const usuario = await Usuario.findByIdAndUpdate(id, { estado:false }, { new: true });
 
+    //Obtener el usuario autenticado
+    //const usuarioAutenticado = await Usuario.findById(uid);
+
+    //Imprimir el usuario (borrado) y el autenticado
     res.json({
         usuario
-    });
-}
-const usuariosPatch = (req, res = response) => {
-    res.json({
-        msg: 'patch API - controller'
+        //usuarioAutenticado
     });
 }
 
@@ -86,6 +88,5 @@ module.exports = {
     usuariosGet,
     usuariosPut,
     usuariosPost,
-    usuariosDelete,
-    usuariosPatch
+    usuariosDelete
 }
